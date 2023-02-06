@@ -29,10 +29,11 @@ public class StudentService {
 		return doSearch();
 	}
 
+	
 	public List<Student> doUpdate(StudentDTO inDto) {
 		Optional<Student> studentOptional = studentRepository.findById(10);
 		studentOptional.ifPresent(student -> {
-			student.setScore(200);
+			student.setScore(90);
 			studentRepository.saveAndFlush(student);
 		});
 		return doSearch();
@@ -42,5 +43,12 @@ public class StudentService {
 		studentRepository.deleteById(10);
 		return doSearch();
 	}
+	
+	public Optional<Student> doFind(Integer id) {
+		Optional<Student> studentOptional = studentRepository.findById(2);
+		return studentOptional;
+		
+	}
+	
 
 }

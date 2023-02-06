@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class StudentDTO implements Serializable {
-	private int no;
+	private Integer no;
 	private String name;
-	private int score;
+	private Integer score;
 
 }

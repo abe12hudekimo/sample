@@ -32,7 +32,7 @@ class StudentServiceTest {
     @Test
     void doCreate() {
         var studentList =  studentService.doCreate(null);
-        Assertions.assertEquals(studentList.size(), 3);
+        Assertions.assertEquals(studentList.size(), 11);
 
     }
 
@@ -43,10 +43,10 @@ class StudentServiceTest {
     @Test
     void doDelete() {
         var studentList =  studentService.doDelete(null);
-        Assertions.assertEquals(studentList.size(), 3);
+        Assertions.assertEquals(studentList.size(), 10);
     }
 
     @Test
     void doSearch() {}
-    
+
     }

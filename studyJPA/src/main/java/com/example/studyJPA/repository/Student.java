@@ -6,10 +6,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "student")
+@NoArgsConstructor
 public class Student {
 	
     @Id

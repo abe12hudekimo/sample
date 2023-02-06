@@ -1,6 +1,7 @@
 package com.example.studyJPA.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +18,9 @@ public class StudentController {
 	StudentService studentService;
 
 	@RequestMapping("/")
-	public String start() {
-		return "hello wold!";
+	public boolean start() {
+		String word = "HelloWorld";
+		return word.matches("[a-zA-Z0-9]{10}");
 	}
 
 	@RequestMapping("/create")
@@ -39,7 +41,11 @@ public class StudentController {
     public List<Student> doPost() {
 		return studentService.doSearch();
     }
-
+	
+	@RequestMapping("/find")
+	public Optional<Student> doIdSearch(Integer id) {
+		return studentService.doFind(id);
+	}
 }
 
 
