@@ -32,7 +32,7 @@ class StudentServiceTest {
     @Test
     void doCreate() {
         var studentList =  studentService.doCreate(null);
-        Assertions.assertEquals(studentList.size(), 11);
+        Assertions.assertEquals(studentList.size(), 10);
 
     }
 

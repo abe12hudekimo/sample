@@ -1,9 +1,15 @@
 package com.example.studyJPA.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,9 +24,9 @@ public class StudentController {
 	StudentService studentService;
 
 	@RequestMapping("/")
-	public boolean start() {
+	public String start() {
 		String word = "HelloWorld";
-		return word.matches("[a-zA-Z0-9]{10}");
+		return word.matches("[a-zA-Z0-9]{10}") + word;
 	}
 
 	@RequestMapping("/create")
@@ -29,8 +35,15 @@ public class StudentController {
 	}
 
 	@RequestMapping("/update")
-	public List<Student> doUpdate(StudentDTO inDto) {
-		return studentService.doUpdate(inDto);
+	public List<Student> doUpdate(@Validated @ModelAttribute StudentDTO inDto,BindingResult result, Model m) {
+		if(result.hasErrors()) {
+			List<String>errorList=new ArrayList<String>();
+			for(ObjectError error : result.getAllErrors()) {
+				errorList.add(error.getDefaultMessage());
+				return (List<Student>) m.addAttribute("validationError", errorList);
+				}	
+	        }
+		return studentService.doUpdate(inDto, result);
 	}
 	@RequestMapping("/delete")
 	public List<Student> doDelete(Integer id) {
