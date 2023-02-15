@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +31,7 @@ public class StudentController {
 	}
 
 	@RequestMapping("/create")
-	public List<Student> doCreate(StudentDTO inDto) {
+	public List<Student> doCreate(@Validated @RequestBody StudentDTO inDto) {
 		return studentService.doCreate(inDto);
 	}
 
@@ -43,7 +44,7 @@ public class StudentController {
 				return (List<Student>) m.addAttribute("validationError", errorList);
 				}	
 	        }
-		return studentService.doUpdate(inDto, result);
+		return studentService.doUpdate(inDto);
 	}
 	@RequestMapping("/delete")
 	public List<Student> doDelete(Integer id) {
@@ -60,5 +61,7 @@ public class StudentController {
 		return studentService.doFind(id);
 	}
 }
+
+
 
 
