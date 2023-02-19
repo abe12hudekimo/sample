@@ -18,4 +18,7 @@ public class StudentDTO implements Serializable {
 	@NotNull
 	private Integer score;
 
+	@NotNull
+	private Integer stuId;
+
 }

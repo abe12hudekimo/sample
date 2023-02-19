@@ -20,9 +20,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Student {
 	
-    @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "no", nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
       
     @Column(name = "name")
@@ -31,8 +31,11 @@ public class Student {
      private String name;
     
     @Column(name = "score")
-    @Builder.Default
-    private Integer score = 50;
+    private Integer score;
+
+    @Id
+    @Column(name = "stu_id")
+    private Integer stuId;
 
 
 }

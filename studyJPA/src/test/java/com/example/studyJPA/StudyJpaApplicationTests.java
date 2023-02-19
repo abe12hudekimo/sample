@@ -36,6 +36,7 @@ class StudentServiceTest {
     @Test
     void doCreate_001() {
         StudentDTO inDto = new StudentDTO();
+        inDto.setStuId(null);
         inDto.setName("abe");
         inDto.setScore(10);
         var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doCreate(inDto));
@@ -46,6 +47,7 @@ class StudentServiceTest {
     @Test
     void doCreate_002() {
         StudentDTO inDto = new StudentDTO();
+        inDto.setStuId(null);
         inDto.setName("阿部");
         inDto.setScore(20);
         var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doCreate(inDto));
@@ -55,6 +57,7 @@ class StudentServiceTest {
     @Test
     void doCreate_003() {
         StudentDTO inDto = new StudentDTO();
+        inDto.setStuId(1);
         inDto.setName("aoyama");
         inDto.setScore(null);
         var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doCreate(inDto));
@@ -64,6 +67,7 @@ class StudentServiceTest {
     @Test
     void doCreate_004() {
         StudentDTO inDto = new StudentDTO();
+        inDto.setStuId(1);
         inDto.setName("errorHuman");
         inDto.setScore(-1);
         var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doCreate(inDto));
@@ -73,6 +77,7 @@ class StudentServiceTest {
     @Test
     void doCreate_005() {
         StudentDTO inDto = new StudentDTO();
+        inDto.setStuId(1);
         inDto.setName("errorHuman");
         inDto.setScore(101);
         var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doCreate(inDto));
@@ -82,8 +87,9 @@ class StudentServiceTest {
     @Test
     void doCreate_ok() {
         StudentDTO inDto = new StudentDTO();
+        inDto.setStuId(2);
         inDto.setName("hara");
-        inDto.setScore(58);
+        inDto.setScore(78);
         var studentCreate = studentService.doCreate(inDto);
         // Assertions.assertNotEquals(0, studentList.size());
     }
@@ -91,7 +97,7 @@ class StudentServiceTest {
     @Test
     void doUpdate_001() {
         StudentDTO inDto = new StudentDTO();
-        inDto.setId(5);
+        inDto.setStuId(2);
         inDto.setName("sakata");
         inDto.setScore(89);
         //studentService.doUpdate(inDto);
@@ -102,7 +108,7 @@ class StudentServiceTest {
     @Test
     void doUpdate_002() {
         StudentDTO inDto = new StudentDTO();
-        inDto.setId(2);
+        inDto.setStuId(2);
         inDto.setName("abe");
         inDto.setScore(89);
         var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doUpdate(inDto));
@@ -112,7 +118,7 @@ class StudentServiceTest {
     @Test
     void doUpdate_003() {
         StudentDTO inDto = new StudentDTO();
-        inDto.setId(1);
+        inDto.setStuId(1);
         inDto.setName("阿部");
         inDto.setScore(89);
         var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doUpdate(inDto));
@@ -122,7 +128,7 @@ class StudentServiceTest {
     @Test
     void doUpdate_004() {
         StudentDTO inDto = new StudentDTO();
-        inDto.setId(1);
+        inDto.setStuId(1);
         inDto.setName("errorHuman");
         inDto.setScore(null);
         var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doUpdate(inDto));
@@ -132,7 +138,7 @@ class StudentServiceTest {
     @Test
     void doUpdate_005() {
         StudentDTO inDto = new StudentDTO();
-        inDto.setId(1);
+        inDto.setStuId(1);
         inDto.setName("errorHuman");
         inDto.setScore(-1);
         var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doUpdate(inDto));
@@ -142,7 +148,7 @@ class StudentServiceTest {
     @Test
     void doUpdate_006() {
         StudentDTO inDto = new StudentDTO();
-        inDto.setId(1);
+        inDto.setStuId(1);
         inDto.setName("errorHuman");
         inDto.setScore(101);
         var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doUpdate(inDto));
@@ -152,8 +158,8 @@ class StudentServiceTest {
     @Test
     void doUpdate_ok() {
         StudentDTO inDto = new StudentDTO();
-        inDto.setId(2);
-        inDto.setName("hikata");
+        inDto.setStuId(2);
+        inDto.setName("sakata");
         inDto.setScore(83);
         var studentUpdate = studentService.doUpdate(inDto);
     }
@@ -161,7 +167,7 @@ class StudentServiceTest {
     @Test
     void doUpdate_ok2() {
         StudentDTO inDto = new StudentDTO();
-        inDto.setId(1);
+        inDto.setStuId(1);
         inDto.setName("abe");
         inDto.setScore(22);
         var studentUpdate2 = studentService.doUpdate(inDto);
@@ -169,27 +175,27 @@ class StudentServiceTest {
 
     @Test
     void doDelete_001() {
-        Integer id = 3;
-        var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doDelete(id));
+        Integer stuId = 3;
+        var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doDelete(stuId));
         System.out.println(error.getMessage());
     }
 
     @Test
     void doDelete_ok() {
-//             Integer id = 29;
-//             var studentDelete = studentService.doDelete(id);
+             Integer stuId = 2;
+             var studentDelete = studentService.doDelete(stuId);
     }
 
     @Test
     void doFind_001() {
-        Integer id = 3;
-        var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doDelete(id));
+        Integer stuId = 3;
+        var error = Assertions.assertThrows(RuntimeException.class, () -> studentService.doDelete(stuId));
         System.out.println(error.getMessage());
     }
 
     @Test
     void doFind_ok() {
-        Integer id = 1;
-        var studentFind = studentService.doFind(id);
+        Integer stuId = 1;
+        var studentFind = studentService.doFind(stuId);
     }
 }
