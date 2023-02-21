@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Serviceクラス
@@ -39,16 +40,18 @@ public class StudentService {
      * doFindメソッド
      * 入力された生徒番号を元にその生徒の情報を表示
      *
-     * @param stuId 生徒番号の入力情報
+     * @param studentCode 生徒番号の入力情報
      * @return studentOptional　検索した生徒を表示
      */
-    public Optional<Student> doFind(Integer stuId) {
-        Optional<Student> studentOptional = studentRepository.findByStuId(stuId);
+    public Student doFind(Integer studentCode) {
+        List<Student> studentInfo = studentRepository.findByStudentCode(studentCode);
+        Student student = (Student) studentInfo;
+
         // ID検索のチェック
-        if (studentOptional.isEmpty()) {
-            throw new RuntimeException("ユーザーが存在しません");
-        }
-        return studentOptional;
+//        if (student.isEmpty()) {
+//            throw new RuntimeException("ユーザーが存在しません");
+//        }
+        return student;
     }
 
     /**
@@ -60,8 +63,8 @@ public class StudentService {
     private void doCheck(StudentDTO inDto) {
         String name = inDto.getName();
         int score = inDto.getScore();
-        int stuId = inDto.getStuId();
-        Optional<Student> studentOptional = studentRepository.findByStuId(stuId);
+        int studentCode = inDto.getStudentCode();
+        List<Student> studentOptional = studentRepository.findByStudentCode(studentCode);
 
         // 名前未記入のチェック
         if (name.isEmpty()) {
@@ -72,7 +75,7 @@ public class StudentService {
             throw new RuntimeException("スコアを入力して下さい");
         }
         // 生徒番号が未記入かチェック
-        if ((Integer) stuId == null) {
+        if ((Integer) studentCode == null) {
             throw new RuntimeException("名前を入力して下さい");
         }
         // ユーザーのローマ字のチェック
@@ -84,9 +87,9 @@ public class StudentService {
             throw new RuntimeException("スコアは０から１００までで入力して下さい");
         }
         //ユーザーの存在チェック
-        if (studentOptional.isPresent()) {
-            throw new RuntimeException("既に同じ生徒番号が存在しています。");
-        }
+//        if (studentOptional.isPresent()) {
+//            throw new RuntimeException("既に同じ生徒番号が存在しています。");
+//        }
     }
 
     /**
@@ -101,7 +104,7 @@ public class StudentService {
         doCheck(inDto);
         //生徒を登録
         Student student = new Student();
-        student.setStuId(inDto.getStuId());
+        student.setStudentCode(inDto.getStudentCode());
         student.setName(inDto.getName());
         student.setScore(inDto.getScore());
         //生徒の情報をDBに保存
@@ -122,8 +125,7 @@ public class StudentService {
         // DBに検索した生徒がいるかどうかID検索のチェック
         doFind(inDto.getId());
         //生徒の情報を更新
-        Student student = new Student();
-        student.setStuId(inDto.getStuId());
+        Student student = doFind(inDto.getStudentCode());
         student.setName(inDto.getName());
         student.setScore(inDto.getScore());
         //生徒の情報をDBに保存
@@ -136,14 +138,14 @@ public class StudentService {
      * doDeleteメソッド
      * 入力された生徒番号を元に、生徒を削除する
      *
-     * @param stuId 生徒番号
+     * @param studentCode 生徒番号
      * @return doSearchメソッド 処理後の生徒全員の情報を表示
      */
-    public List<Student> doDelete(Integer stuId) {
+    public List<Student> doDelete(Integer studentCode) {
         // DBに検索した生徒がいるかどうかID検索のチェック
-        doFind(stuId);
+        doFind(studentCode);
         //生徒の情報を削除
-        studentRepository.deleteById(stuId);
+       // studentRepository.deleteByStudentCode(studentCode);
         return doSearch();
     }
 }

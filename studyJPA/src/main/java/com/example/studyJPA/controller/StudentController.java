@@ -34,8 +34,8 @@ public class StudentController {
     }
 
     @RequestMapping("/delete")
-    public List<Student> doDelete(@RequestBody Integer stuId) {
-        return studentService.doDelete(stuId);
+    public List<Student> doDelete(@RequestBody Integer studentCode) {
+        return studentService.doDelete(studentCode);
     }
 
     @RequestMapping("/result")
@@ -44,8 +44,8 @@ public class StudentController {
     }
 
     @RequestMapping("/find")
-    public Optional<Student> doIdSearch(@RequestBody Integer stuId) {
-        return studentService.doFind(stuId);
+    public Student doIdSearch(@RequestBody Integer studentCode){
+        return studentService.doFind(1);
     }
 }
 

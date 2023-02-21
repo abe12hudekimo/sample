@@ -35,7 +35,7 @@ public class Student {
 
     @Id
     @Column(name = "stu_id")
-    private Integer stuId;
+    private Integer studentCode;
 
 
 }

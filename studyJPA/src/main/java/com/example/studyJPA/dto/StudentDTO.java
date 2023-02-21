@@ -19,6 +19,6 @@ public class StudentDTO implements Serializable {
 	private Integer score;
 
 	@NotNull
-	private Integer stuId;
+	private Integer studentCode;
 
 }
