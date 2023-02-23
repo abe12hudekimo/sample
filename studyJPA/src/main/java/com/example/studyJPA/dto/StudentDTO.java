@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentDTO implements Serializable {
-	private Integer id;
+	//private Integer id;
 	@NotNull
 	private String name;
 	@NotNull

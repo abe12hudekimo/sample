@@ -19,22 +19,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Student {
-	
 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
       
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
 //    @NotEmpty(message = "名前を入力してください")
 //    @Size(max=10, message = "名前は10文字以内で入力してください")
      private String name;
     
-    @Column(name = "score")
+    @Column(name = "score", nullable = false)
     private Integer score;
 
-    @Id
-    @Column(name = "stu_id")
+    @Column(name = "stu_id", nullable = false)
     private Integer studentCode;
 
 

@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Serviceクラス
@@ -43,15 +41,13 @@ public class StudentService {
      * @param studentCode 生徒番号の入力情報
      * @return studentOptional　検索した生徒を表示
      */
-    public Student doFind(Integer studentCode) {
-        List<Student> studentInfo = studentRepository.findByStudentCode(studentCode);
-        Student student = (Student) studentInfo;
-
-        // ID検索のチェック
-//        if (student.isEmpty()) {
-//            throw new RuntimeException("ユーザーが存在しません");
-//        }
-        return student;
+    public List<Student> doFind(Integer studentCode) {
+        // 学生番号から対象のオブジェクトを取得する
+        List<Student> studentList = studentRepository.findByStudentCode(studentCode);
+        if (studentList.isEmpty()) {
+            throw new RuntimeException("学生番号が存在しません。");
+        }
+        return studentList;
     }
 
     /**
@@ -76,7 +72,7 @@ public class StudentService {
         }
         // 生徒番号が未記入かチェック
         if ((Integer) studentCode == null) {
-            throw new RuntimeException("名前を入力して下さい");
+            throw new RuntimeException("生徒番号を入力して下さい");
         }
         // ユーザーのローマ字のチェック
         if (!name.matches(regex_AlphaNum)) {
@@ -86,10 +82,7 @@ public class StudentService {
         if (!(score <= MAX & score >= MIN)) {
             throw new RuntimeException("スコアは０から１００までで入力して下さい");
         }
-        //ユーザーの存在チェック
-//        if (studentOptional.isPresent()) {
-//            throw new RuntimeException("既に同じ生徒番号が存在しています。");
-//        }
+
     }
 
     /**
@@ -122,16 +115,16 @@ public class StudentService {
     public List<Student> doUpdate(StudentDTO inDto) {
         //入力された値にnullがないかのエラーチェック
         doCheck(inDto);
-        // DBに検索した生徒がいるかどうかID検索のチェック
-        doFind(inDto.getId());
-        //生徒の情報を更新
-        Student student = doFind(inDto.getStudentCode());
+        Student student = studentRepository.findFirstByStudentCode(inDto.getStudentCode()).orElseThrow(() ->
+                new RuntimeException("学生番号が存在しません。")
+        );
+
         student.setName(inDto.getName());
         student.setScore(inDto.getScore());
         //生徒の情報をDBに保存
         studentRepository.saveAndFlush(student);
-
         return doSearch();
+
     }
 
     /**
@@ -145,7 +138,7 @@ public class StudentService {
         // DBに検索した生徒がいるかどうかID検索のチェック
         doFind(studentCode);
         //生徒の情報を削除
-       // studentRepository.deleteByStudentCode(studentCode);
+        // studentRepository.deleteByStudentCode(studentCode);
         return doSearch();
     }
 }

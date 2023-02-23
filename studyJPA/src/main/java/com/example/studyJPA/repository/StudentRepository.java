@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 public interface StudentRepository extends JpaRepository<Student, Integer> {
 
 	List<Student> findByStudentCode(Integer studentCode);
+	Optional<Student> findFirstByStudentCode(Integer studentCode);
+
 	//List<Student> findByNameAndScore(String name);
 //	@Query("SELECT * FROM student WHERE name = :name")
 //    List<Student> getMembersByNameEquals(String name);
