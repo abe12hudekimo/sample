@@ -9,12 +9,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class StudentController {
 
     @Autowired
     StudentService studentService;
+
+    @RequestMapping("/find")
+    public Optional<Student> doFind(@RequestBody Integer id) {
+        return studentService.doFind(id);
+    }
+
+    @RequestMapping("/result")
+    public List<Student> showStudent() {
+        return studentService.showStudent();
+    }
 
     @RequestMapping("/")
     public String start() {
@@ -33,18 +44,9 @@ public class StudentController {
     }
 
     @RequestMapping("/delete")
-    public List<Student> doDelete(@RequestBody Integer studentCode) {
-        return studentService.doDelete(studentCode);
+    public List<Student> doDelete(@RequestBody Integer id) {
+        return studentService.doDelete(id);
     }
 
-    @RequestMapping("/result")
-    public List<Student> doPost() {
-        return studentService.doSearch();
-    }
-
-    @RequestMapping("/find")
-    public List<Student> doIdSearch(@RequestBody Integer studentCode) {
-        return studentService.doFind(studentCode);
-    }
 }
 

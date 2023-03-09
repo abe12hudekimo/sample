@@ -24,7 +24,11 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
-      
+
+    @Column(name = "class_no", nullable = false)
+    private String classNo;
+
+
     @Column(name = "name", nullable = false)
 //    @NotEmpty(message = "名前を入力してください")
 //    @Size(max=10, message = "名前は10文字以内で入力してください")
@@ -32,9 +36,6 @@ public class Student {
     
     @Column(name = "score", nullable = false)
     private Integer score;
-
-    @Column(name = "stu_id", nullable = false)
-    private Integer studentCode;
 
 
 }

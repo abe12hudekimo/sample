@@ -6,7 +6,9 @@ import com.example.studyJPA.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Id;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Serviceクラス
@@ -30,7 +32,7 @@ public class StudentService {
      *
      * @return studentRepository.findAll() テーブル内にある生徒全員を表示
      */
-    public List<Student> doSearch() {
+    public List<Student> showStudent() {
         return studentRepository.findAll();
     }
 
@@ -38,12 +40,12 @@ public class StudentService {
      * doFindメソッド
      * 入力された生徒番号を元にその生徒の情報を表示
      *
-     * @param studentCode 生徒番号の入力情報
+     * @param id 生徒番号の入力情報
      * @return studentOptional　検索した生徒を表示
      */
-    public List<Student> doFind(Integer studentCode) {
+    public Optional<Student> doFind(Integer id) {
         // 学生番号から対象のオブジェクトを取得する
-        List<Student> studentList = studentRepository.findByStudentCode(studentCode);
+        Optional<Student>studentList = studentRepository.findById(id);
         if (studentList.isEmpty()) {
             throw new RuntimeException("学生番号が存在しません。");
         }
@@ -57,26 +59,25 @@ public class StudentService {
      * @param inDto 生徒の入力情報
      */
     private void doCheck(StudentDTO inDto) {
+        String classNo = inDto.getClassNo();
         String name = inDto.getName();
         int score = inDto.getScore();
-        int studentCode = inDto.getStudentCode();
-        List<Student> studentOptional = studentRepository.findByStudentCode(studentCode);
 
+        // 生徒番号が未記入かチェック
+        if (!classNo.matches("[1-3][ABC]")) {
+            throw new RuntimeException("正しい所属を入力して下さい");
+        }
         // 名前未記入のチェック
         if (name.isEmpty()) {
             throw new RuntimeException("名前を入力して下さい");
         }
-        // スコアが未記入かチェック
-        if ((Integer) score == null) {
-            throw new RuntimeException("スコアを入力して下さい");
-        }
-        // 生徒番号が未記入かチェック
-        if ((Integer) studentCode == null) {
-            throw new RuntimeException("生徒番号を入力して下さい");
-        }
         // ユーザーのローマ字のチェック
         if (!name.matches(regex_AlphaNum)) {
             throw new RuntimeException("名前は半角英数字で入力して下さい");
+        }
+        // スコアが未記入かチェック
+        if ((Integer)score == null) {
+            throw new RuntimeException("スコアを入力して下さい");
         }
         // スコアが０から１００までかチェック
         if (!(score <= MAX & score >= MIN)) {
@@ -97,12 +98,12 @@ public class StudentService {
         doCheck(inDto);
         //生徒を登録
         Student student = new Student();
-        student.setStudentCode(inDto.getStudentCode());
+        student.setClassNo(inDto.getClassNo());
         student.setName(inDto.getName());
         student.setScore(inDto.getScore());
         //生徒の情報をDBに保存
         studentRepository.saveAndFlush(student);
-        return doSearch();
+        return showStudent();
     }
 
     /**
@@ -115,30 +116,29 @@ public class StudentService {
     public List<Student> doUpdate(StudentDTO inDto) {
         //入力された値にnullがないかのエラーチェック
         doCheck(inDto);
-        Student student = studentRepository.findFirstByStudentCode(inDto.getStudentCode()).orElseThrow(() ->
+        Student student = studentRepository.findById(inDto.getId()).orElseThrow(() ->
                 new RuntimeException("学生番号が存在しません。")
         );
-
+        student.setClassNo(inDto.getClassNo());
         student.setName(inDto.getName());
         student.setScore(inDto.getScore());
         //生徒の情報をDBに保存
         studentRepository.saveAndFlush(student);
-        return doSearch();
-
+        return showStudent();
     }
 
     /**
      * doDeleteメソッド
      * 入力された生徒番号を元に、生徒を削除する
      *
-     * @param studentCode 生徒番号
+     * @param id 生徒番号
      * @return doSearchメソッド 処理後の生徒全員の情報を表示
      */
-    public List<Student> doDelete(Integer studentCode) {
+    public List<Student> doDelete(Integer id) {
         // DBに検索した生徒がいるかどうかID検索のチェック
-        doFind(studentCode);
+        doFind(id);
         //生徒の情報を削除
-        // studentRepository.deleteByStudentCode(studentCode);
-        return doSearch();
+         studentRepository.deleteById(id);
+        return showStudent();
     }
 }

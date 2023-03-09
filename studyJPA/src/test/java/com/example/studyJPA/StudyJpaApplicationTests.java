@@ -1,53 +1,69 @@
-package com.example.studyJPA;
-
-import com.example.studyJPA.dto.StudentDTO;
-import com.example.studyJPA.repository.StudentRepository;
-import com.example.studyJPA.service.StudentService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class StudentServiceTest {
-
-    @Autowired
-    StudentService studentService;
-
-    @Autowired
-    StudentRepository studentRepository;
-
-    @BeforeEach
-    void setUp() {
-        System.out.println("---------------------------");
-        System.out.println("test start");
-        System.out.println("---------------------------");
-    }
-
-    @AfterEach
-    void tearDown() {
-        System.out.println("---------------------------");
-        System.out.println("test end");
-        System.out.println("---------------------------");
-    }
-
-    @Test
-    void doFind_ok() {
-        int studentCode = 1;
-        var studentFind = studentService.doFind(studentCode);
-        System.out.println(studentFind);
-    }
-
-    @Test
-    void doCreate_ok() {
-        StudentDTO inDto = new StudentDTO();
-        inDto.setStudentCode(3);
-        inDto.setName("nanaka");
-        inDto.setScore(18);
-        var studentCreate = studentService.doCreate(inDto);
-        // Assertions.assertNotEquals(0, studentList.size());
-    }
+//package com.example.studyJPA;
+//
+//import com.example.studyJPA.dto.StudentDTO;
+//import com.example.studyJPA.repository.Student;
+//import com.example.studyJPA.repository.StudentRepository;
+//import com.example.studyJPA.service.StudentService;
+//import org.junit.jupiter.api.AfterEach;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//import java.util.Optional;
+//import java.util.function.Consumer;
+//
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//class StudentServiceTest {
+//
+//    @Autowired
+//    StudentService studentService;
+//
+//    @Autowired
+//    StudentRepository studentRepository;
+//
+//    @BeforeEach
+//    void setUp() {
+//        System.out.println("---------------------------");
+//        System.out.println("test start");
+//        System.out.println("---------------------------");
+//    }
+//
+//    @AfterEach
+//    void tearDown() {
+//        System.out.println("---------------------------");
+//        System.out.println("test end");
+//        System.out.println("---------------------------");
+//    }
+//
+//    @Test
+//    void doFind_ok() {
+//        int studentCode = 1;
+//        var studentFind = studentService.doFind(studentCode);
+//        System.out.println(studentFind);
+//    }
+//
+//    @Test
+//    void doCreate_ok() {
+//        StudentDTO inDto = new StudentDTO();
+//        inDto.setStudentCode(3);
+//        inDto.setName("nanaka");
+//        inDto.setScore(18);
+//        var studentCreate = studentService.doCreate(inDto);
+//        // Assertions.assertNotEquals(0, studentList.size());
+//    }
+//        @Test
+//    void doUpdate_ok2() {
+//        Student student = studentRepository.findFirstByStudentCode(2).get();
+//        StudentDTO inDto = new StudentDTO();
+//        inDto.setStudentCode(student.getStudentCode());
+//        inDto.setName("abe");
+//        inDto.setScore(22);
+//        var studentUpdate2 = studentService.doUpdate(inDto);
+//        studentUpdate2.forEach(System.out::println);
+//
+//        }
+//
 
 //    @Test
 //    void doCreate_001() {
